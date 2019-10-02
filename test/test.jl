@@ -272,3 +272,12 @@ let
     @test expr.args[1] === GlobalRef(Base, :add_int)
 end
 
+@testset "kernel with a variable named in" begin
+    kernel_with_in(in) = @loop for i in (1;1) end
+
+    @launch CPU() kernel_with_in(nothing)
+
+    @static if Base.find_package("CuArrays") !== nothing
+        @launch CUDA() kernel_with_in(nothing)
+    end
+end
