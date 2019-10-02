@@ -210,7 +210,7 @@ macro loop(expr)
 
         # use cpuidx calculation to check bounds of on GPU.
         bounds_chk = quote
-            if $isdevice() && !($gpuidx in $cpuidx)
+            if $isdevice() && !(Base.in($gpuidx, $cpuidx))
                 continue
             end
         end
